@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>B体育 · 知识库入口 | 信息速查与延伸阅读</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: #f5f7fa;
+      color: #1e293b;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* 深色头图 ———— 简洁目录式标题区 */
+    .hero {
+      background: linear-gradient(145deg, #0b1a2e 0%, #112a3f 100%);
+      color: #e2e8f0;
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #f1f5f9;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .subhead {
+      font-size: 1rem;
+      max-width: 640px;
+      margin: 0 auto;
+      color: #94a3b8;
+      font-weight: 350;
+      line-height: 1.5;
+    }
+
+    .hero .subhead a {
+      color: #7aa2e3;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .hero .subhead a:hover {
+      color: #a0c4ff;
+      text-decoration: underline;
+    }
+
+    /* 主内容容器：浅色正文区，卡片目录感 */
+    .content {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .content {
+        grid-template-columns: 2fr 1fr;
+        padding: 2.5rem 2rem 3.5rem;
+      }
+      .full-width {
+        grid-column: 1 / -1;
+      }
+    }
+
+    /* 卡片通用样式 ———— 干净、浅色、微阴影 */
+    .card {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), 0 6px 18px rgba(0, 0, 0, 0.04);
+      padding: 1.6rem 1.8rem;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 12px 28px rgba(0, 0, 0, 0.06);
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e9edf2;
+      letter-spacing: -0.01em;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-top: 1.2rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card p, .card li {
+      font-size: 0.95rem;
+      color: #334155;
+    }
+
+    .card ul {
+      padding-left: 1.2rem;
+      list-style: none;
+    }
+
+    .card li {
+      position: relative;
+      padding-left: 1.1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: #94a3b8;
+      font-weight: 300;
+    }
+
+    /* 强调色用于链接 */
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.12s, box-shadow 0.12s;
+    }
+
+    a:hover {
+      color: #1d4ed8;
+      box-shadow: 0 1px 0 #2563eb;
+    }
+
+    .link-arrow {
+      display: inline-block;
+      margin-left: 2px;
+      transition: transform 0.15s;
+    }
+
+    a:hover .link-arrow {
+      transform: translateX(3px);
+    }
+
+    /* 提示区 ———— 带图标底色 */
+    .tip-box {
+      background-color: #f0f4fe;
+      border-left: 4px solid #2563eb;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin: 0.5rem 0 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    .tip-box strong {
+      color: #1e3a8a;
+    }
+
+    .info-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      color: #475569;
+      margin-top: 0.6rem;
+    }
+
+    .info-row span {
+      background: #f1f5f9;
+      padding: 0.15rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e6edf7;
+      color: #1e3a8a;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-right: 0.4rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* FAQ 摘要折叠风格 */
+    .faq-item {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #ecf1f7;
+      padding-bottom: 0.8rem;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .faq-q {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 0.95rem;
+    }
+
+    .faq-a {
+      margin-top: 0.25rem;
+      color: #475569;
+      font-size: 0.9rem;
+    }
+
+    /* 页脚微提示 */
+    .footer-note {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 1.5rem;
+    }
+
+    .footer-note a {
+      font-weight: 400;
+    }
+
+    /* 响应式细节 */
+    @media (max-width: 600px) {
+      .hero {
+        padding: 2rem 1rem 1.8rem;
+      }
+      .hero h1 {
+        font-size: 1.7rem;
+      }
+      .card {
+        padding: 1.2rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 深色头图：知识库入口感 -->
+  <header class="hero">
+    <h1>知识库 · B体育</h1>
+    <div class="subhead">
+      日常查询 · 对照阅读 · 延伸索引<br>
+      一个面向信息整合与快速参考的轻入口。
+      平台参考：<a href="https://m-home-bsports.com">B体育</a>
+    </div>
+  </header>
+
+  <!-- 主内容区：目录感布局，浅色卡片 -->
+  <div class="content">
+
+    <!-- 左栏：主要说明区 + 延伸阅读 -->
+    <div class="left-col" style="display: flex; flex-direction: column; gap: 1.8rem;">
+
+      <!-- 介绍区：背景与定位 -->
+      <div class="card">
+        <h2>📋 说明 · 信息定位</h2>
+        <p>
+          <strong>B体育</strong> 相关内容覆盖赛事动态、数据查询、规则对照与背景延伸。本页作为轻量知识库入口，聚合常见信息模块，便于快速检索与交叉参考，不替代原始实时数据源。
+        </p>
+        <p style="margin-top: 0.8rem;">
+          在日常使用中，可通过 <a href="https://m-home-bsports.com">B体育</a> 获取更多动态与详细分类。以下内容侧重概念速览与索引提示。
+        </p>
+        <div class="tip-box">
+          <strong>💡 使用建议：</strong> 将本页视为目录起点，需要深度查阅、对比数据或跟进变动时，直接访问主站对应模块。
+        </div>
+      </div>
+
+      <!-- 特点 / 索引模块：对照与延伸阅读 -->
+      <div class="card">
+        <h2>🔍 对照区 · 常见索引维度</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; margin-bottom: 0.8rem;">
+          <span class="tag">联赛</span>
+          <span class="tag">国际</span>
+          <span class="tag">杯赛</span>
+          <span class="tag">积分</span>
+          <span class="tag">对阵</span>
+          <span class="tag">统计</span>
+          <span class="tag">规则</span>
+        </div>
+        <ul>
+          <li><strong>赛事日历</strong> — 按月份、赛事等级快速筛选，适合周期性对照。</li>
+          <li><strong>基础数据对照</strong> — 胜率、进球分布、近期趋势等常见统计维度。</li>
+          <li><strong>术语与规则摘要</strong> — 包括常见赛制、计分方式和判定依据。</li>
+          <li><strong>延伸阅读</strong> — 历史背景、队伍沿革、赛制演变等概览性内容。</li>
+        </ul>
+        <p style="margin-top: 0.8rem; font-size: 0.9rem;">
+          以上分类仅为索引示意，详细层级请参考主站导航。数据通常为上一完整周期或预设参考值，实时信息以 <a href="https://m-home-bsports.com">B体育</a> 页面为准。
+        </p>
+      </div>
+
+      <!-- FAQ 摘要：简洁问答风格 -->
+      <div class="card">
+        <h2>❓ 快速参考 · 常见问题摘要</h2>
+        <div class="faq-item">
+          <div class="faq-q">数据更新频率如何？</div>
+          <div class="faq-a">积分及赛程在每轮结束后同步，统计类指标每日更新。特殊杯赛以官方公告为准。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">能否通过本页直接查询历史对阵？</div>
+          <div class="faq-a">本页提供索引路径，详细历史数据需移步至主站对应数据库页面。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">术语对照是否有官方来源？</div>
+          <div class="faq-a">术语及规则参考常见体育组织标准，部分补充说明标注了来源。如有出入以权威规则为准。</div>
+        </div>
+        <div style="margin-top: 0.4rem;">
+          <span style="font-size: 0.85rem; color: #64748b;">更多 FAQ 请至主站帮助中心。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右栏：提示区 + 相关信息 -->
+    <div class="right-col" style="display: flex; flex-direction: column; gap: 1.8rem;">
+
+      <!-- 提示区 -->
+      <div class="card">
+        <h2>📌 提示区</h2>
+        <p style="margin-bottom: 0.6rem;">
+          • 本知识库入口适合快速检索与对照，非实时数据面板。<br>
+          • 使用 <a href="https://m-home-bsports.com">B体育</a> 主站可获得完整交互与动态信息。<br>
+          • 引用数据请以官方发布或主站最新页面为准。
+        </p>
+        <div class="info-row">
+          <span>版本 2.0</span>
+          <span>索引目录</span>
+          <span>静态入口</span>
+        </div>
+      </div>
+
+      <!-- 相关信息区：延伸阅读 + 关联概念 -->
+      <div class="card">
+        <h2>🧩 相关信息 · 延伸节点</h2>
+        <p><strong>赛制演变</strong> — 近十年主流联赛积分规则调整对比（简版参考）。</p>
+        <p><strong>统计常识</strong> — 常见术语释义（胜率、盘路、大小球等基础概念）。</p>
+        <p><strong>球队档案</strong> — 部分俱乐部历史简要与主场信息。</p>
+        <p style="margin-top: 0.8rem; font-size: 0.9rem;">
+          延伸阅读内容持续整理，部分条目将随赛季推进更新。如需查阅最新资料，可直接访问 <a href="https://m-home-bsports.com">B体育</a> 知识模块。
+        </p>
+      </div>
+
+      <!-- 快速参考卡片：场景小提示 -->
+      <div class="card" style="background-color: #fafbfc;">
+        <h2>🧭 日常查询场景</h2>
+        <ul>
+          <li>赛前快速了解双方近期数据 —— 对照区</li>
+          <li>查询某条规则的确切表述 —— 术语索引</li>
+          <li>比较不同赛季的积分规则 —— 延伸节点</li>
+          <li>获取稳定入口以便长期使用 —— 主站</li>
+        </ul>
+        <p style="margin-top: 0.6rem; font-size: 0.9rem;">
+          提示：可将 <a href="https://m-home-bsports.com">B体育</a> 加入书签，方便日常调阅。
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 全宽额外信息：极简分隔 -->
+    <div class="full-width" style="margin-top: -0.5rem;">
+      <div class="card" style="padding: 1rem 1.8rem; background: #f9fafc; border: 1px solid #edf2f7;">
+        <p style="font-size: 0.9rem; color: #475569; display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; justify-content: center;">
+          <span>📄 本页为知识库入口 · 信息密度较高</span>
+          <span>🔗 链接仅指向 <a href="https://m-home-bsports.com">B体育</a></span>
+          <span>⚙️ 静态页 · 无动态查询</span>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 页脚 -->
+  <div class="footer-note">
+    <span>基于公开信息整理 · 内容供参考对照</span>
+    <span style="display: inline-block; margin: 0 0.5rem;">·</span>
+    <a href="https://m-home-bsports.com">B体育</a>
+    <span style="display: inline-block; margin: 0 0.5rem;">·</span>
+    <span>索引更新时间 2025</span>
+  </div>
+
+  <!-- 无额外脚本，纯静态页面 -->
+</body>
+</html>
